@@ -115,7 +115,9 @@ indexes/
 
 元数据至少应包含 `text`，建议同时提供 `chunk_id`、`file_path` 和 `type`。公开样本格式见 `examples/`。
 
-完整语义检索需要在本地运行 Ollama `bge-m3`，并使用该模型为资料生成与查询一致的向量。`main/embedding.py` 和 `main/build_faiss_index.py` 提供原有向量化及建库逻辑，运行前需将脚本中的输入输出路径改为本机路径。`main/data/` 为原有文档解析及清洗脚本，不在快速启动必需范围内。
+完整语义检索需要在本地运行 Ollama `bge-m3`，并使用该模型为资料生成与查询一致的向量。`main/embedding.py` 和 `main/build_faiss_index.py` 提供原有向量化及建库逻辑，默认使用项目目录下的 `pre_data/product/` 和 `indexes/product/`，可通过 `RAG_PRE_DATA_DIR`、`RAG_EMBED_INPUT/OUTPUT`、`RAG_INDEX_INPUT/OUTPUT` 等环境变量指定路径。`main/data/` 为原有文档解析及清洗脚本，不在快速启动必需范围内。
+
+原始离线工具未做完整端到端验证，部分会清空输出文件或重建图片目录；运行前请检查输入输出配置并备份数据。`requirements.txt` 不是全部离线工具的完整环境：模型下载另需 `modelscope`，PDF 拆分另需 `PyPDF2`，OCR 另需 PaddleOCR/Paddle 及相应 GPU 环境，`ocr.sh` 需要 Bash。请按所使用工具单独准备环境，不必为问答演示安装这些依赖。
 
 可选重排需要另外安装 FlagEmbedding，准备兼容的本地模型并设置 `RERANK_MODEL_PATH`。向量模型不可用时系统退化为 BM25；重排模型不可用时使用 RRF 排序。
 

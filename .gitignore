@@ -1,0 +1,40 @@
+# Local environments and credentials
+.venv/
+venv/
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Python / editor artifacts
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Real enterprise documents, generated indexes and downloaded models
+indexes/
+models/
+pre_data/
+data/
+!main/data/
+main/data/*/
+main/static/img/
+*.index
+*_metadata.jsonl
+*bge-m3.jsonl
+
+# Chat history, outputs and screenshots can contain private information
+history.json
+output_history/
+*.log
+ui-preview/
+validation/
+main/tmpfile
+main/templates/legacy/
+report.html
+yield_analysis_report_standalone.html

@@ -1,0 +1,33 @@
+{% macro icon(name, cls='') -%}<svg class="icon {{ cls }}" aria-hidden="true"><use href="{{ url_for('static', filename='icons.svg') }}#{{ name }}"></use></svg>{%- endmacro %}
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}国科 · 智能知识空间{% endblock %}</title>
+  <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='brand.svg') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='workspace.css') }}?v=2">
+  <script>try { if(localStorage.getItem('theme')==='dark')document.documentElement.dataset.theme='dark'; }catch(e){}</script>
+  <script src="{{ url_for('static', filename='workspace.js') }}?v=2" defer></script>
+</head>
+<body>
+  <aside class="sidebar" id="sidebar">
+    <a class="brand" href="/"><img src="{{ url_for('static', filename='brand.svg') }}" alt=""><span>国科 · 知识空间<small>GUOKE KNOWLEDGE</small></span></a>
+    <a class="new-chat" href="/">{{ icon('plus') }} 开启新对话 <span>↗</span></a>
+    <div class="nav-label">工作空间</div>
+    <a class="nav-item {% if not run_id %}active{% endif %}" href="/">{{ icon('grid') }} 知识库问答</a>
+    <div class="history-heading"><span class="nav-label">最近对话</span>{{ icon('history') }}</div>
+    <nav class="history-list" aria-label="历史对话">
+      {% for item in history[:8] %}<a class="history-item {% if item.run_id == run_id %}selected{% endif %}" title="{{ item.prompt }}" href="{{ url_for('session_page', run_id=item.run_id, prompt=item.prompt, category=item.category or 'employee') }}">{{ icon('chat') }}<span>{{ item.prompt }}</span></a>{% else %}<p class="empty-history">从第一个问题开始，<br>让知识触手可及。</p>{% endfor %}
+    </nav>
+    <div class="sidebar-bottom"><div class="local-badge"><span class="status-dot"></span> 本地知识工作台</div><div class="profile"><span class="avatar">国</span><div>国科半导体光电研究院<small>企业智能知识助手</small></div></div></div>
+  </aside>
+  <button class="backdrop" id="backdrop" aria-label="关闭侧边栏" hidden></button>
+  <div class="workspace">
+    <header class="topbar"><div class="breadcrumb"><button class="icon-button mobile-menu" id="menu-toggle" aria-label="展开侧边栏">{{ icon('menu') }}</button><span>工作空间</span><span class="slash">/</span><strong>知识库问答</strong></div><div class="topbar-actions"><span class="edition">企业知识库</span><button class="icon-button" id="theme-toggle" aria-label="切换深浅色主题" title="切换深浅色主题">{{ icon('moon') }}</button><button class="icon-button" id="help-toggle" aria-label="使用帮助" title="使用帮助">{{ icon('help') }}</button></div></header>
+    {% block content %}{% endblock %}
+    <footer class="page-footer">国科半导体光电研究院 <span>·</span> 让知识连接每一次探索</footer>
+  </div>
+  <dialog id="help-dialog"><button class="icon-button dialog-close" data-close-dialog aria-label="关闭">{{ icon('close') }}</button><span class="eyebrow">QUICK START</span><h2>让知识为你解答</h2><p>选择一个可用的知识库，输入问题并发送。回答下方可查看引用片段，也可以点击推荐问题继续探索。</p><p>“待接入”的知识库需要补充资料索引后才能使用。历史对话保存在左侧，点击即可回看。</p></dialog>
+  <div class="toast" id="toast" role="status" hidden></div>
+</body>
+</html>

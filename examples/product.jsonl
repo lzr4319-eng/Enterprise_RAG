@@ -1,0 +1,3 @@
+{"text":"【虚构演示资料】DEMO-LIGHT-01 是用于问答演示的虚构光电传感器型号。示例参数：供电电压 5 V、可见光检测、数字信号输出。上述参数不是实际产品规格，不能用于采购或设计。","file_path":"examples/product-catalog-demo.md","chunk_id":"product-001","type":"text","image_paths":[]}
+{"text":"【虚构演示资料】DEMO-LED-02 是用于问答演示的虚构 LED 模组型号。示例参数：额定功率 1 W、白光输出、用于教学电路。请勿将示例参数作为真实器件的使用依据。","file_path":"examples/product-catalog-demo.md","chunk_id":"product-002","type":"text","image_paths":[]}
+{"text":"【虚构演示资料】示例产品资料查询方法：先确认产品型号，再查询对应参数和应用场景。遇到资料未覆盖的参数，应联系资料提供方核实，不应自行补充规格。","file_path":"examples/product-catalog-demo.md","chunk_id":"product-003","type":"text","image_paths":[]}

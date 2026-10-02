@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block content %}
+<main class="home-main">
+  <section class="simple-intro">
+    <img src="{{ url_for('static', filename='brand.svg') }}" alt="">
+    <div><h1>企业智能知识问答</h1><p>选择知识库，然后输入你的问题</p></div>
+  </section>
+  <section class="knowledge-section" aria-labelledby="kb-title"><div class="section-heading"><div><h2 id="kb-title">选择知识库</h2></div></div>
+    <div class="knowledge-grid" role="group" aria-label="知识库类别">{% for kb in knowledge_bases %}<button type="button" class="kb-card {{ kb.id }} {% if loop.first %}is-selected{% endif %}" data-category="{{ kb.id }}" data-label="{{ kb.name }}" aria-pressed="{{ 'true' if loop.first else 'false' }}" {% if not kb.available %}disabled{% endif %}><div class="kb-card-top"><span class="kb-icon">{{ icon(kb.icon) }}</span>{% if kb.available %}<span class="selection-check">{{ icon('check') }}</span>{% else %}<span class="unavailable-label">内网开放</span>{% endif %}</div><h3>{{ kb.name }}</h3><p>{{ kb.description }}</p><div class="kb-card-bottom">{% if kb.mode == 'local' %}<span>{{ kb.count }} 个知识片段</span>{{ icon('arrow') }}{% elif kb.mode == 'fallback' %}<span>大模型直答模式</span>{{ icon('spark') }}{% else %}<span>当前环境不可用</span>{{ icon('lock') }}{% endif %}</div></button>{% endfor %}</div>
+  </section>
+  <section class="ask-section" aria-label="输入问题"><form id="question-form" class="question-form"><input type="hidden" name="category" id="category-input" value="employee"><label for="question-input" class="composer-label">{{ icon('chat') }} 提问 <span id="selected-label">员工培训</span></label><textarea id="question-input" name="query" rows="2" placeholder="请输入你的问题" required maxlength="4000"></textarea><div class="composer-bottom"><span class="input-hint">Enter 发送</span><button class="submit-button" type="submit">发送 {{ icon('arrow') }}</button></div></form></section>
+</main>
+{% endblock %}

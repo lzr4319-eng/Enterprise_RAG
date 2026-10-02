@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block title %}知识对话 · 国科知识空间{% endblock %}
+{% block content %}
+<main class="chat-main" id="chat-session" data-run-id="{{ run_id }}" data-invalid="{{ 'true' if invalid else 'false' }}">
+  <div class="chat-heading"><a href="/">{{ icon('arrow-left') }} 返回知识空间</a><span class="category-badge">{% for kb in knowledge_bases %}{% if kb.id == category %}{{ icon(kb.icon) }} {{ kb.name }}{% endif %}{% endfor %}</span></div>
+  <div class="user-question"><span class="eyebrow">YOUR QUESTION</span><h1>{{ prompt or '历史知识对话' }}</h1></div>
+  <section class="answer-card"><div class="answer-heading"><img src="{{ url_for('static', filename='brand.svg') }}" alt=""><div><strong>国科知识助手</strong><span id="answer-status" role="status">{% if category == 'professional' %}正在生成专业回答…{% else %}正在检索相关知识…{% endif %}</span></div><span class="answer-label">{% if category == 'professional' %}大模型直答{% else %}知识库问答{% endif %}</span></div><div id="answer-content" class="answer-content" aria-live="polite"><div class="loading-line"></div><div class="loading-line short"></div><p class="loading-note">{% if category == 'professional' %}正在组织专业知识回答，请稍候。{% else %}正在查找资料并整理回答，请稍候。{% endif %}</p></div><div id="references" class="references" hidden></div><div id="answer-images" class="answer-images" hidden></div></section>
+  <details class="retrieval-details"><summary>{{ icon('search') }} 查看检索记录 <span>过程可追溯</span></summary><div id="retrieval-log"></div></details>
+  <section id="related-questions" class="related-questions" hidden><h2>继续探索</h2><div id="related-list"></div></section>
+  <form id="question-form" class="question-form chat-form"><input type="hidden" name="category" id="category-input" value="{{ category }}"><label for="question-input" class="composer-label">{{ icon('chat') }} 继续向当前知识库提问</label><textarea id="question-input" name="query" rows="2" placeholder="还想了解什么？" required maxlength="4000"></textarea><div class="composer-bottom"><span class="input-hint">Enter 发送 <span>·</span> Shift + Enter 换行</span><button class="submit-button" type="submit">发送问题 {{ icon('arrow') }}</button></div></form>
+  <p class="answer-note">{% if category == 'professional' %}本回答由大模型直接生成，无知识库引用，请核实关键信息。{% else %}回答由 AI 根据知识库资料生成，请结合引用来源核实重要信息。{% endif %}</p>
+</main>
+<dialog id="image-dialog"><button class="icon-button dialog-close" data-close-dialog aria-label="关闭图片">{{ icon('close') }}</button><img id="preview-image" alt="知识库资料图片预览"></dialog>
+{% endblock %}
